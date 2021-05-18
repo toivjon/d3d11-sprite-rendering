@@ -19,6 +19,26 @@ auto WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmd, int s
     return -1;
   }
 
+  // build and show the application window.
+  auto window = CreateWindow(
+    windowClass.lpszClassName,
+    TEXT("D3D11 - Sprite Rendering"),
+    WS_OVERLAPPEDWINDOW,
+    CW_USEDEFAULT,
+    CW_USEDEFAULT,
+    CW_USEDEFAULT,
+    CW_USEDEFAULT,
+    nullptr,
+    nullptr,
+    instance,
+    nullptr
+  );
+  if (window == nullptr) {
+    OutputDebugStringA("Failed to create a new window!");
+    return -1;
+  }
+  ShowWindow(window, show);
+
   // TODO
 
   return 0;
