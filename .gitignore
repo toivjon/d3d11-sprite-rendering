@@ -1,0 +1,11 @@
+# Visual Studio cache/options directory
+/.vs
+
+# Visual Studio Code cache/options directory
+/.vscode
+
+# Visual Studio CMake default output directory
+/out
+
+# Visual Studio Code CMake default output directory
+/build
