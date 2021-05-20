@@ -2,6 +2,9 @@
 
 #include <exception>
 
+// The name of the window class being registered for the application.
+constexpr auto WindowClassName = TEXT("d3d11-sprite-rendering");
+
 auto CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LPARAM {
   switch (msg) {
     case WM_DESTROY:
@@ -11,20 +14,33 @@ auto CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LPAR
   return DefWindowProc(hwnd, msg, lParam, wParam);
 }
 
-auto createWindow(HINSTANCE instance, int show) -> HWND {
-  // Register a window class for the application.
+// Register a window class or throw an exception on failure.
+void registerWindowClass(HINSTANCE instance) {
   WNDCLASS windowClass = {};
-  windowClass.lpszClassName = TEXT("d3d11-sprite-rendering");
+  windowClass.lpszClassName = WindowClassName;
   windowClass.lpfnWndProc = WndProc;
   windowClass.hInstance = instance;
   if (RegisterClass(&windowClass) == 0) {
     throw std::exception("Failed to register window class!");
   }
+}
 
-  // Build and show a new window that uses the registered window class.
-  auto window = CreateWindow(windowClass.lpszClassName, TEXT("D3D11 - Sprite Rendering"),
-                             WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-                             CW_USEDEFAULT, nullptr, nullptr, instance, nullptr);
+// Build and show a window for the application or throw an exception on failure.
+auto createWindow(HINSTANCE instance, int show) -> HWND {
+  // clang-format off
+  auto window = CreateWindow(
+      WindowClassName,
+      TEXT("D3D11 - Sprite Rendering"),
+      WS_OVERLAPPEDWINDOW,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      nullptr,
+      nullptr,
+      instance,
+      nullptr);
+  // clang-format on
   if (window == nullptr) {
     throw std::exception("Failed to create window!");
   }
@@ -37,6 +53,7 @@ auto WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmd, int s
   UNREFERENCED_PARAMETER(prevInstance);
   UNREFERENCED_PARAMETER(cmd);
   try {
+    registerWindowClass(instance);
     createWindow(instance, show);
 
     MSG message = {};
