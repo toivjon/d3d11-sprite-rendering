@@ -1,33 +1,38 @@
+#include <d3d11.h>
 #include <windows.h>
+#include <wrl/client.h>
 
 #include <exception>
+#include <vector>
+
+using namespace Microsoft::WRL;
 
 // The name of the window class being registered for the application.
 constexpr auto WindowClassName = TEXT("d3d11-sprite-rendering");
 
 auto CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LPARAM {
-  switch (msg) {
+    switch (msg) {
     case WM_DESTROY:
-      PostQuitMessage(0);
-      return 0;
-  }
-  return DefWindowProc(hwnd, msg, lParam, wParam);
+        PostQuitMessage(0);
+        return 0;
+    }
+    return DefWindowProc(hwnd, msg, lParam, wParam);
 }
 
 // Register a window class or throw an exception on failure.
 void registerWindowClass(HINSTANCE instance) {
-  WNDCLASS windowClass = {};
-  windowClass.lpszClassName = WindowClassName;
-  windowClass.lpfnWndProc = WndProc;
-  windowClass.hInstance = instance;
-  if (RegisterClass(&windowClass) == 0) {
-    throw std::exception("Failed to register window class!");
-  }
+    WNDCLASS windowClass = {};
+    windowClass.lpszClassName = WindowClassName;
+    windowClass.lpfnWndProc = WndProc;
+    windowClass.hInstance = instance;
+    if (RegisterClass(&windowClass) == 0) {
+        throw std::exception("Failed to register window class!");
+    }
 }
 
 // Build and show a window for the application or throw an exception on failure.
 auto createWindow(HINSTANCE instance, int show) -> HWND {
-  // clang-format off
+    // clang-format off
   auto window = CreateWindow(
       WindowClassName,
       TEXT("D3D11 - Sprite Rendering"),
@@ -40,29 +45,29 @@ auto createWindow(HINSTANCE instance, int show) -> HWND {
       nullptr,
       instance,
       nullptr);
-  // clang-format on
-  if (window == nullptr) {
-    throw std::exception("Failed to create window!");
-  }
-  ShowWindow(window, show);
-  UpdateWindow(window);
-  return window;
+    // clang-format on
+    if (window == nullptr) {
+        throw std::exception("Failed to create window!");
+    }
+    ShowWindow(window, show);
+    UpdateWindow(window);
+    return window;
 }
 
 auto WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmd, int show) -> int {
-  UNREFERENCED_PARAMETER(prevInstance);
-  UNREFERENCED_PARAMETER(cmd);
-  try {
-    registerWindowClass(instance);
-    createWindow(instance, show);
+    UNREFERENCED_PARAMETER(prevInstance);
+    UNREFERENCED_PARAMETER(cmd);
+    try {
+        registerWindowClass(instance);
+        createWindow(instance, show);
 
-    MSG message = {};
-    while (GetMessage(&message, nullptr, 0, 0)) {
-      TranslateMessage(&message);
-      DispatchMessage(&message);
+        MSG message = {};
+        while (GetMessage(&message, nullptr, 0, 0)) {
+            TranslateMessage(&message);
+            DispatchMessage(&message);
+        }
+    } catch (...) {
     }
-  } catch (...) {
-  }
 
-  return 0;
+    return 0;
 }
