@@ -32,20 +32,17 @@ void registerWindowClass(HINSTANCE instance) {
 
 // Build and show a window for the application or throw an exception on failure.
 auto createWindow(HINSTANCE instance, int show) -> HWND {
-    // clang-format off
-  auto window = CreateWindow(
-      WindowClassName,
-      TEXT("D3D11 - Sprite Rendering"),
-      WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      nullptr,
-      nullptr,
-      instance,
-      nullptr);
-    // clang-format on
+    auto window = CreateWindow(WindowClassName,
+                               TEXT("D3D11 - Sprite Rendering"),
+                               WS_OVERLAPPEDWINDOW,
+                               CW_USEDEFAULT,
+                               CW_USEDEFAULT,
+                               CW_USEDEFAULT,
+                               CW_USEDEFAULT,
+                               nullptr,
+                               nullptr,
+                               instance,
+                               nullptr);
     if (window == nullptr) {
         throw std::exception("Failed to create window!");
     }
