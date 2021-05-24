@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <wrl/client.h>
 
-using namespace Microsoft::WRL; // yep, ugly but still better than using nested namespaces.
+using namespace Microsoft::WRL; // yep, ugly but still more readable than using full qualifiers.
 
 namespace test {
 class D3DContext final {
