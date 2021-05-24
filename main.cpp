@@ -1,11 +1,8 @@
-#include <d3d11.h>
 #include <windows.h>
 #include <wrl/client.h>
 
 #include <exception>
 #include <vector>
-
-using namespace Microsoft::WRL;
 
 // The name of the window class being registered for the application.
 constexpr auto WindowClassName = TEXT("d3d11-sprite-rendering");
